@@ -4,7 +4,7 @@ export default function Privacy() {
   return (
     <PolicyLayout title="Privacy Policy" updated="October 2026">
       <p>
-        At Munch, we take your privacy seriously. This policy explains what we collect,
+        At Dmcfoods, we take your privacy seriously. This policy explains what we collect,
         why we collect it, and what you can do about it.
       </p>
 
@@ -45,7 +45,7 @@ export default function Privacy() {
 
       <h2 className="text-lg font-semibold dark:text-white pt-2">Contact us</h2>
       <p>
-        Questions? Email <a href="mailto:privacy@munch.co.ke" className="text-brand hover:underline">privacy@munch.co.ke</a>.
+        Questions? Email <a href="mailto:privacy@dmcfoods.co.ke" className="text-brand hover:underline">privacy@dmcfoods.co.ke</a>.
       </p>
     </PolicyLayout>
   );

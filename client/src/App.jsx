@@ -1,8 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { useBranch } from './store/branchStore';
 import Home from './pages/Home.jsx';
 import Categories from './pages/Categories.jsx';
 import CategoryDetail from './pages/CategoryDetail.jsx';
-import Account from './pages/Account.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Checkout from './pages/Checkout.jsx';
@@ -17,18 +18,44 @@ import Privacy from './pages/Privacy.jsx';
 import Terms from './pages/Terms.jsx';
 import Wallet from './pages/Wallet.jsx';
 import Loyalty from './pages/Loyalty.jsx';
+
+// Admin Pages
+import Dashboard from './pages/admin/Dashboard.jsx';
+import AdminOrders from './pages/admin/Orders.jsx';
+import AdminMenu from './pages/admin/Menu.jsx';
+import AdminUsers from './pages/admin/UsersAdmin.jsx';
+import AdminBranches from './pages/admin/Branches.jsx';
+import DeliveryZonesAdmin from './pages/admin/DeliveryZones.jsx';
+import PromoCodesAdmin from './pages/admin/PromoCodes.jsx';
+
+// Components
 import Header from './components/Header.jsx';
 import CartDrawer from './components/CartDrawer.jsx';
+import FloatingCart from './components/FloatingCart.jsx';
 import ToastContainer from './components/ToastContainer.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import AdminRoute from './components/AdminRoute.jsx';
 
 export default function App() {
+  const location = useLocation();
+  const fetchBranches = useBranch(s => s.fetchBranches);
+  
+  useEffect(() => {
+    fetchBranches();
+  }, [fetchBranches]);
+  const isAdminRoute = location.pathname.startsWith('/dmc-console');
+
   return (
     <>
-      <Header />
-      <CartDrawer />
+      {/* Hide customer header, cart, and floating cart on admin routes */}
+      {!isAdminRoute && <Header />}
+      {!isAdminRoute && <CartDrawer />}
+      {!isAdminRoute && <FloatingCart />}
+      
       <ToastContainer />
+
       <Routes>
+        {/* Public Routes */}
         <Route path="/"               element={<Home />} />
         <Route path="/categories"     element={<Categories />} />
         <Route path="/category/:slug" element={<CategoryDetail />} />
@@ -37,16 +64,26 @@ export default function App() {
         <Route path="/cart"           element={<Cart />} />
         <Route path="/login"          element={<Login />} />
         <Route path="/register"       element={<Register />} />
-        <Route path="/account"        element={<ProtectedRoute><Account /></ProtectedRoute>} />
-        <Route path="/profile"        element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/help"           element={<Help />} />
+        <Route path="/privacy"        element={<Privacy />} />
+        <Route path="/terms"          element={<Terms />} />
+
+        {/* Protected Customer Routes */}
+                <Route path="/profile"        element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/checkout"       element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
         <Route path="/orders"         element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/orders/:id"     element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
         <Route path="/wallet"         element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
         <Route path="/loyalty"        element={<ProtectedRoute><Loyalty /></ProtectedRoute>} />
-        <Route path="/help"           element={<Help />} />
-        <Route path="/privacy"        element={<Privacy />} />
-        <Route path="/terms"          element={<Terms />} />
+
+        {/* Hidden Admin Routes */}
+        <Route path="/dmc-console"           element={<AdminRoute><Dashboard /></AdminRoute>} />
+        <Route path="/dmc-console/orders"    element={<AdminRoute><AdminOrders /></AdminRoute>} />
+        <Route path="/dmc-console/menu"      element={<AdminRoute><AdminMenu /></AdminRoute>} />
+        <Route path="/dmc-console/users"     element={<AdminRoute><AdminUsers /></AdminRoute>} />
+        <Route path="/dmc-console/branches"  element={<AdminRoute><AdminBranches /></AdminRoute>} />
+        <Route path="/dmc-console/delivery-zones" element={<AdminRoute><DeliveryZonesAdmin /></AdminRoute>} />
+        <Route path="/dmc-console/promos" element={<AdminRoute><PromoCodesAdmin /></AdminRoute>} />
       </Routes>
     </>
   );

@@ -1,6 +1,7 @@
 import express from 'express';
 import Category from '../models/Category.js';
 import MenuItem from '../models/MenuItem.js';
+import { escapeRegex } from '../lib/escapeRegex.js';
 
 const router = express.Router();
 

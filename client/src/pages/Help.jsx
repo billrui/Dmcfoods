@@ -68,11 +68,11 @@ export default function Help() {
             <p className="text-xs text-gray-500 dark:text-gray-400">+254 700 123 456</p>
           </div>
         </a>
-        <a href="mailto:support@munch.co.ke" className="bg-white dark:bg-[#1A1D21] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-3 hover:border-gray-200 dark:hover:border-gray-700 transition">
+        <a href="mailto:support@dmcfoods.co.ke" className="bg-white dark:bg-[#1A1D21] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-3 hover:border-gray-200 dark:hover:border-gray-700 transition">
           <Mail className="w-5 h-5 text-brand" />
           <div>
             <p className="text-sm font-medium dark:text-white">Email</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">support@munch.co.ke</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">support@dmcfoods.co.ke</p>
           </div>
         </a>
         <div className="bg-white dark:bg-[#1A1D21] rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex items-center gap-3">

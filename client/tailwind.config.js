@@ -4,7 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: '#E8192C', hover: '#C91524' },
+        // Dmcfoods brand — warm orange-red
+        brand: {
+          DEFAULT: '#FF5722',
+          hover:   '#E64A19',
+        },
       },
       fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
     },

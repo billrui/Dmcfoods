@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { verifyAccessToken } from '../lib/jwt.js';
 
 export async function requireAuth(req, res, next) {
   try {
@@ -7,13 +7,13 @@ export async function requireAuth(req, res, next) {
     const token = header.startsWith('Bearer ') ? header.slice(7) : null;
     if (!token) return res.status(401).json({ error: 'No token' });
 
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = verifyAccessToken(token);
     const user = await User.findById(payload.sub);
     if (!user) return res.status(401).json({ error: 'Invalid token' });
 
     req.user = user;
     next();
   } catch {
-    res.status(401).json({ error: 'Invalid token' });
+    res.status(401).json({ error: 'Invalid or expired token' });
   }
 }

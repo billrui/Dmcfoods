@@ -31,7 +31,7 @@ export default function Loyalty() {
         <div className="relative">
           <div className="flex items-center gap-2 mb-3 opacity-90">
             <Award className="w-4 h-4" />
-            <span className="text-xs font-medium tracking-wider">MUNCH REWARDS</span>
+            <span className="text-xs font-medium tracking-wider">DMCFOODS REWARDS</span>
           </div>
           <p className="text-4xl font-bold mb-1">{points}</p>
           <p className="text-sm opacity-80 mb-6">points available</p>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import BrandMark from './BrandMark.jsx';
 import { Search, Heart, User, ShoppingBag, Menu as MenuIcon, Moon, Sun, ChevronDown } from 'lucide-react';
 import { useCart } from '../store/cartStore';
 import { useTheme } from '../store/themeStore';
@@ -27,15 +28,7 @@ export default function Header() {
       <header className="sticky top-0 z-30 bg-white dark:bg-[#14171A] border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-6">
 
-          <Link to="/" className="shrink-0">
-            <div className="w-9 h-9 bg-brand rounded-lg flex items-center justify-center">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
-                <circle cx="8" cy="6" r="2" />
-                <circle cx="16" cy="6" r="2" />
-                <path d="M6 10h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z" />
-              </svg>
-            </div>
-          </Link>
+          <BrandMark />
 
           <nav className="hidden md:flex gap-8 text-sm shrink-0">
             <Link to="/" className="text-brand font-medium">Home</Link>
@@ -68,8 +61,8 @@ export default function Header() {
               onClick={() => setBranchOpen(true)}
               className="flex items-center gap-2 border border-gray-200 dark:border-gray-700 rounded-full px-4 py-2 hover:border-gray-300 dark:hover:border-gray-600"
             >
-              <span className="text-sm text-gray-800 dark:text-gray-200 font-medium">{branch.name}</span>
-              <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 tracking-wide">{branch.status}</span>
+              <span className="text-sm text-gray-800 dark:text-gray-200 font-medium">{branch?.name || 'Select Branch'}</span>
+              <span className={`text-[10px] font-bold tracking-wide ${branch?.status === 'CLOSED' ? 'text-red-500' : 'text-green-500'}`}>{branch?.status || 'CLOSED'}</span>
               <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
             </button>
 

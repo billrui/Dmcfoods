@@ -1,71 +1,207 @@
-import { Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MapPin, Clock, Plus, Minus, Sparkles, Tag, AlertCircle } from 'lucide-react';
 import { useCart } from '../store/cartStore';
+import { useBranch } from '../store/branchStore';
+import { useQuery } from '@tanstack/react-query';
+import api from '../lib/api';
+import ProductCard from '../components/ProductCard.jsx';
 
 export default function Cart() {
   const { items, setQty, remove, subtotal } = useCart();
+  const { branch } = useBranch();
   const navigate = useNavigate();
-  const total = subtotal();
+  const [promo, setPromo] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState(null);
+
+  const isClosed = branch?.status === 'CLOSED';
+
+  const { data: suggested = [] } = useQuery({
+    queryKey: ['menu', 'popular'],
+    queryFn: () => api.get('/menu?popular=true').then(r => r.data),
+    enabled: items.length > 0,
+  });
+
+  const itemsTotal = subtotal();
+  
+  // Calculate addons total dynamically
+  const addonsTotal = items.reduce((sum, item) => {
+    const addonsPrice = (item.addons || []).reduce((s, a) => s + a.price, 0);
+    return sum + (addonsPrice * item.quantity);
+  }, 0);
+
+  let discount = 0;
+  if (appliedPromo) {
+    if (appliedPromo.discountType === 'percentage') {
+      discount = itemsTotal * (appliedPromo.discountValue / 100);
+    } else {
+      discount = appliedPromo.discountValue;
+    }
+  }
+  const couponDiscount = 0;
+  const tax = 0;
+  const total = itemsTotal - discount + addonsTotal - couponDiscount + tax;
 
   if (items.length === 0) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6 dark:text-white">Cart</h1>
-        <div className="bg-white dark:bg-[#1A1D21] rounded-2xl shadow-sm p-12 text-center">
-          <ShoppingBag className="w-8 h-8 mx-auto text-gray-400 mb-4" />
-          <h2 className="text-lg font-bold mb-2 dark:text-white">Your cart is empty</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-            Browse the menu to add items.
-          </p>
-          <Link
-            to="/"
-            className="inline-block bg-brand hover:bg-brand-hover text-white px-6 py-2.5 rounded-full font-semibold text-sm"
-          >
-            Browse menu
-          </Link>
+      <div className="min-h-screen bg-[#0F1114] py-20 text-center">
+        <div className="w-20 h-20 bg-[#1A1D21] border border-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+          <span className="text-3xl">🛒</span>
         </div>
+        <h1 className="text-2xl font-bold mb-2 text-white">Your cart is empty</h1>
+        <p className="text-gray-500 mb-8">Browse the menu to add items.</p>
+        <button onClick={() => navigate('/')} className="bg-brand hover:bg-brand-hover text-white px-8 py-3 rounded-full font-semibold transition">
+          Browse menu
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6 dark:text-white">Cart</h1>
-      <div className="bg-white dark:bg-[#1A1D21] rounded-2xl shadow-sm p-4 space-y-4">
-        {items.map(item => (
-          <div key={item._id} className="flex gap-3">
-            <img src={item.image} className="w-16 h-16 rounded-lg object-cover" alt="" />
-            <div className="flex-1">
-              <h3 className="text-sm font-medium dark:text-white">{item.name}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Ksh{item.price / 100}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <button onClick={() => setQty(item._id, item.quantity - 1)}
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center dark:text-white">
-                  <Minus className="w-3 h-3" />
-                </button>
-                <span className="text-sm dark:text-white">{item.quantity}</span>
-                <button onClick={() => setQty(item._id, item.quantity + 1)}
-                  className="w-7 h-7 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center dark:text-white">
-                  <Plus className="w-3 h-3" />
-                </button>
-                <button onClick={() => remove(item._id)} className="ml-auto text-gray-400">
-                  <Trash2 className="w-4 h-4" />
-                </button>
+    <div className="min-h-screen bg-[#0F1114] pb-32">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8 text-white">Cart</h1>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* LEFT COLUMN */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            <div className="bg-[#1A1D21] border border-gray-800 rounded-2xl p-5 shadow-sm">
+              
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+                    <MapPin className="w-5 h-5 text-brand" />
+                  </div>
+                  <div>
+                    <h2 className="font-semibold text-white">{branch?.name || 'Dmcfoods'}</h2>
+                    <p className="text-sm text-gray-400 mt-1">{branch?.address || 'Location'}</p>
+                  </div>
+                </div>
+                <button onClick={() => navigate('/')} className="text-sm font-medium text-brand hover:underline">Change</button>
+              </div>
+
+              <div className="flex items-start gap-4 mb-6 pb-6 border-b border-gray-800">
+                <div className="w-10 h-10 rounded-full bg-[#23272B] flex items-center justify-center shrink-0">
+                  <Clock className="w-5 h-5 text-gray-400" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-0.5">Estimated delivery time</p>
+                  <h3 className="font-semibold text-white">40min - 50min</h3>
+                  <p className="text-xs text-gray-500 mt-1">Delivery fee at checkout</p>
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                {items.map(item => (
+                  <div key={item.cartItemId} className="flex gap-4">
+                    <div className="w-16 h-16 rounded-lg bg-[#23272B] overflow-hidden shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-white">{item.name}</h3>
+                      
+                      {/* Display Add-ons here */}
+                      {item.addons && item.addons.length > 0 && (
+                        <p className="text-[11px] text-brand mt-0.5">
+                          + {item.addons.map(a => a.name).join(', ')}
+                        </p>
+                      )}
+
+                      <p className="text-sm font-semibold text-white mt-1">Ksh{(item.price * item.quantity) / 100}</p>
+                      
+                      <div className="flex items-center justify-between mt-3">
+                        <div className="flex items-center gap-3 bg-[#14171A] border border-gray-700 rounded-lg px-2 py-1">
+                          {/* FIXED: Using cartItemId instead of _id */}
+                          <button onClick={() => setQty(item.cartItemId, item.quantity - 1)} className="p-1 text-white hover:text-brand">
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="text-sm font-semibold text-white w-4 text-center">{item.quantity}</span>
+                          <button onClick={() => setQty(item.cartItemId, item.quantity + 1)} className="p-1 text-white hover:text-brand">
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+                        {/* FIXED: Using cartItemId instead of _id */}
+                        <button onClick={() => remove(item.cartItemId)} className="text-xs font-medium text-brand hover:underline">
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button onClick={() => navigate('/')} className="w-full mt-6 py-3 border border-gray-700 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 hover:bg-[#23272B] transition">
+                <Sparkles className="w-4 h-4" /> Add more items
+              </button>
+            </div>
+
+            <div className="pt-4">
+              <h2 className="text-lg font-bold mb-4 text-white">Frequently bought together</h2>
+              <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                {suggested.slice(0, 4).map(item => <ProductCard key={item._id} item={item} />)}
               </div>
             </div>
+
           </div>
-        ))}
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-          <div className="flex justify-between mb-3 font-semibold dark:text-white">
-            <span>Subtotal</span>
-            <span>Ksh{total / 100}</span>
+
+          {/* RIGHT COLUMN */}
+          <div className="space-y-4">
+            
+            <div className="bg-[#1A1D21] border border-gray-800 rounded-2xl p-5 shadow-sm flex gap-2">
+              <div className="relative flex-1">
+                <Tag className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input type="text" placeholder="Promo code" value={promo} onChange={e => setPromo(e.target.value)} className="w-full bg-[#14171A] border border-gray-700 rounded-xl pl-9 pr-4 py-3 text-sm text-white outline-none focus:border-brand" />
+              </div>
+              <button onClick={async () => {
+                if (!promo) return;
+                try {
+                  const { data } = await api.post('/promos/validate', { code: promo, subtotal: itemsTotal });
+                  setAppliedPromo(data);
+                  toast('Promo applied successfully!', { type: 'success' });
+                } catch (err) {
+                  toast(err.response?.data?.error || 'Invalid code', { type: 'error' });
+                }
+              }} className="bg-[#3B1D25] text-brand px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#4A252F] transition">
+                Apply
+              </button>
+            </div>
+
+            <div className="bg-[#1A1D21] border border-gray-800 rounded-2xl p-5 shadow-sm space-y-4">
+              <div className="flex justify-between text-sm text-gray-400"><span>Items price</span><span className="text-white font-medium">Ksh{itemsTotal / 100}</span></div>
+              <div className="flex justify-between text-sm text-gray-400"><span>Discount</span><span className="text-white font-medium">(-) Ksh{discount / 100}</span></div>
+              
+              {/* Dynamic Addons total */}
+              <div className="flex justify-between text-sm text-gray-400">
+                <span>Add-ons</span>
+                <span className="text-white font-medium">(+) Ksh{addonsTotal / 100}</span>
+              </div>
+
+              <div className="flex justify-between text-sm text-gray-400"><span>Coupon discount</span><span className="text-white font-medium">(-) Ksh{couponDiscount / 100}</span></div>
+              <div className="flex justify-between text-sm text-gray-400"><span>Tax</span><span className="text-white font-medium">(+) Ksh{tax / 100}</span></div>
+              <div className="border-t border-gray-800 pt-4 flex justify-between font-bold">
+                <span className="text-white">Total amount</span>
+                <span className="text-brand text-lg">Ksh{total / 100}</span>
+              </div>
+            </div>
+
+            {isClosed ? (
+              <div className="bg-[#2A1215] border border-red-900/30 rounded-2xl p-5 text-center">
+                <p className="text-sm text-brand font-medium mb-3">
+                  <strong>Branch unavailable</strong> - This branch is closed right now.
+                </p>
+                <button disabled className="w-full bg-[#1A1D21] border border-gray-800 text-gray-500 py-4 rounded-xl font-bold cursor-not-allowed">
+                  Branch closed — checkout unavailable
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => navigate('/checkout')} className="w-full bg-brand hover:bg-brand-hover text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-brand/20 transition">
+                Proceed to checkout
+              </button>
+            )}
+
           </div>
-          <button
-            onClick={() => navigate('/checkout')}
-            className="w-full bg-brand hover:bg-brand-hover text-white py-3 rounded-full font-semibold"
-          >
-            Checkout
-          </button>
         </div>
       </div>
     </div>
