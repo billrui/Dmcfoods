@@ -1,0 +1,71 @@
+# Render Blueprint — creates both services in one go.
+# Render dashboard → New → Blueprint → pick this GitHub repo.
+# Values marked "sync: false" are asked for in the dashboard (never commit secrets).
+services:
+  # ── Backend: Express API + M-Pesa (always-on web service) ──
+  - type: web
+    name: dmc-foods-api
+    runtime: node
+    region: frankfurt            # closest Render region to Kenya
+    plan: starter                # paid = always on (free instances sleep and miss M-Pesa callbacks)
+    rootDir: server
+    buildCommand: npm install --omit=dev
+    startCommand: node src/index.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    disk:                        # menu photos survive restarts/deploys
+      name: uploads
+      mountPath: /opt/render/project/src/server/public/uploads
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN           # your shop address(es), comma separated
+        sync: false
+      - key: PUBLIC_API_URL          # this API's public address, used for photo links
+        sync: false
+      - key: COOKIE_SAMESITE         # strict when shop + api share your domain; none on *.onrender.com
+        value: strict
+      - key: DARAJA_ENVIRONMENT      # sandbox | production
+        value: sandbox
+      - key: DARAJA_TYPE             # till | paybill
+        value: paybill
+      - key: DARAJA_CONSUMER_KEY
+        sync: false
+      - key: DARAJA_CONSUMER_SECRET
+        sync: false
+      - key: DARAJA_SHORTCODE        # Till: STORE number. Paybill: paybill number. Sandbox: 174379
+        sync: false
+      - key: DARAJA_TILL_NUMBER      # Till only
+        sync: false
+      - key: DARAJA_PASSKEY
+        sync: false
+      - key: MPESA_CALLBACK_URL      # https://<api address>/api/v1/mpesa/callback
+        sync: false
+      - key: MPESA_CALLBACK_SECRET
+        generateValue: true
+
+  # ── Frontend: React shop + admin console (static site) ──
+  - type: web
+    name: dmc-foods-shop
+    runtime: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite              # let React Router handle /cart, /dmc-console, ...
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    envVars:
+      - key: VITE_API_URL          # https://<api address>/api   (read at build time)
+        sync: false

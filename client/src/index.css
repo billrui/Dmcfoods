@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ───────── Shop themes (pick one in src/theme.js) ─────────
+   Values are "R G B" so Tailwind opacity like bg-brand/10 works. */
+
+/* 1. Kericho Tea — tea green + chai amber */
+:root, [data-theme="tea"] {
+  --brand: 31 107 74;        /* #1F6B4A */
+  --brand-hover: 24 86 59;
+  --brand-ink: 255 255 255;
+  --accent: 232 163 61;      /* #E8A33D */
+  --d-brand-text: 92 190 136; --brand-text: var(--d-brand-text);  /* brighter green for text on dark */
+  --brand-text-light: 31 107 74;
+  --d-app: 15 26 21; --app: var(--d-app);           /* #0F1A15 */
+  --d-sunken: 19 32 26; --sunken: var(--d-sunken);
+  --d-card: 24 40 33; --card: var(--d-card);
+  --d-raised: 33 54 45; --raised: var(--d-raised);
+  --d-raised2: 42 66 55; --raised2: var(--d-raised2);
+  --d-line: 44 66 56; --line: var(--d-line);
+  --page: 250 247 242;       /* #FAF7F2 */
+  --font-display: 'Nunito';
+  --font-body: 'Inter';
+}
+
+/* 2. Spice Market — terracotta + saffron on cream */
+[data-theme="spice"] {
+  --brand: 196 81 45;        /* #C4512D */
+  --brand-hover: 166 66 35;
+  --brand-ink: 255 255 255;
+  --accent: 242 182 50;      /* #F2B632 */
+  --d-brand-text: 236 125 88; --brand-text: var(--d-brand-text);
+  --brand-text-light: 176 70 38;
+  --d-app: 28 18 14; --app: var(--d-app);
+  --d-sunken: 35 23 18; --sunken: var(--d-sunken);
+  --d-card: 44 30 24; --card: var(--d-card);
+  --d-raised: 58 40 32; --raised: var(--d-raised);
+  --d-raised2: 72 50 40; --raised2: var(--d-raised2);
+  --d-line: 70 50 40; --line: var(--d-line);
+  --page: 251 245 236;       /* cream */
+  --font-display: 'DM Serif Display';
+  --font-body: 'Inter';
+}
+
+/* 3. Night Kitchen — charcoal + lime, always dark */
+[data-theme="night"] {
+  --brand: 155 225 93;       /* #9BE15D */
+  --brand-hover: 130 200 70;
+  --brand-ink: 18 22 14;     /* dark text on lime buttons */
+  --accent: 155 225 93;
+  --d-brand-text: 155 225 93; --brand-text: var(--d-brand-text);
+  --brand-text-light: 72 120 20;
+  --d-app: 22 24 29; --app: var(--d-app);           /* #16181D */
+  --d-sunken: 27 30 36; --sunken: var(--d-sunken);
+  --d-card: 33 36 43; --card: var(--d-card);
+  --d-raised: 44 48 57; --raised: var(--d-raised);
+  --d-raised2: 55 60 70; --raised2: var(--d-raised2);
+  --d-line: 52 56 66; --line: var(--d-line);
+  --page: 22 24 29;
+  --font-display: 'Space Grotesk';
+  --font-body: 'Inter';
+}
+
+body {
+  font-family: var(--font-body), Inter, system-ui, sans-serif;
+  @apply bg-page text-gray-900 antialiased;
+}
+.dark body {
+  @apply bg-app text-gray-100;
+}
+h1, h2, h3 { font-family: var(--font-display), Inter, system-ui, sans-serif; }
+
+/* ───────── Light mode (sun button) ─────────
+   The shop pages were drawn dark; in light mode the dark surfaces turn light and
+   light text turns dark. The admin console (.force-dark) always stays dark. */
+html:not(.dark) {           /* "silver night" light mode */
+  --app: 207 213 222;         /* #CFD5DE silver page */
+  --sunken: 222 227 234;      /* inputs, search bar */
+  --card: 244 246 249;        /* cards, slightly brighter than the page */
+  --raised: 230 234 240;
+  --raised2: 214 220 229;
+  --line: 186 194 206;
+  --page: 207 213 222;
+  --brand-text: var(--brand-text-light);
+  color-scheme: light;
+}
+.force-dark, html:not(.dark) .force-dark {
+  --app: var(--d-app); --sunken: var(--d-sunken); --card: var(--d-card);
+  --raised: var(--d-raised); --raised2: var(--d-raised2); --line: var(--d-line);
+  --brand-text: var(--d-brand-text);
+  color-scheme: dark;
+}
+html:not(.dark) .text-white:not(.force-dark):not(.force-dark *):not([class*="bg-brand"]):not([class*="bg-red"]):not([class*="bg-green"]):not([class*="bg-black"]):not([class*="bg-amber"]):not([class*="bg-sky"]) { color: rgb(17 24 39); }
+html:not(.dark) :is(.bg-brand, [class*="bg-red-"], [class*="bg-green-"], [class*="from-"], .bg-black) .text-white { color: #fff; }
+html:not(.dark) .text-gray-100:not(.force-dark):not(.force-dark *),
+html:not(.dark) .text-gray-200:not(.force-dark):not(.force-dark *) { color: rgb(31 41 55); }
+html:not(.dark) .text-gray-300:not(.force-dark):not(.force-dark *) { color: rgb(55 65 81); }
+html:not(.dark) .text-gray-400:not(.force-dark):not(.force-dark *) { color: rgb(107 114 128); }
+html:not(.dark) .border-gray-800:not(.force-dark):not(.force-dark *),
+html:not(.dark) .divide-gray-800:not(.force-dark):not(.force-dark *) > * + * { border-color: rgb(229 231 235); }
+html:not(.dark) .border-gray-700:not(.force-dark):not(.force-dark *) { border-color: rgb(209 213 219); }
+html:not(.dark) .bg-gray-800:not(.force-dark):not(.force-dark *) { background-color: rgb(229 231 235); }
+html:not(.dark) .bg-app:not(.force-dark):not(.force-dark *) .shadow-sm, html:not(.dark) .bg-card:not(.force-dark):not(.force-dark *) { box-shadow: 0 1px 2px rgb(0 0 0 / .05); }
+
+/* Section headings (Popular, Latest, Today's Offers…) — loud orange-to-red */
+.section-title {
+  font-family: var(--font-display), Inter, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #FF8A00 0%, #FF4D1A 55%, #E8132B 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent !important;
+  display: inline-block;
+}
+.section-title::after {
+  content: ''; display: block; height: 3px; width: 2.2rem; margin-top: 4px; border-radius: 3px;
+  background: linear-gradient(90deg, #FF8A00, #E8132B);
+}
+
+/* Hearts (favourites) are always deep red, filled red once saved */
+svg.lucide-heart:not(.force-dark *) { color: #C8102E !important; }
+svg.lucide-heart.fill-brand:not(.force-dark *) { fill: #C8102E !important; }
+
+/* Brand-coloured text uses a brighter shade so it reads well on dark cards */
+.text-brand { color: rgb(var(--brand-text)); }
+
+/* Night Kitchen: lime buttons need dark text */
+[data-theme="night"] .bg-brand.text-white,
+[data-theme="night"] .bg-brand .text-white { color: rgb(var(--brand-ink)); }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

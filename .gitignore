@@ -1,0 +1,14 @@
+
+# added for Render
+node_modules/
+**/node_modules/
+.env
+**/.env
+!**/.env.render.example
+dist/
+client/dist/
+server/public/uploads/
+*.log
+.DS_Store
+*.bak*
+*.py
