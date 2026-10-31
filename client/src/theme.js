@@ -6,7 +6,7 @@
 // ─────────────────────────────────────────────
 export const SHOP_THEME = 'night';
 
-export const BRAND_NAME = 'DMC Foods';
+export const BRAND_NAME = 'DMC Flavours';
 
 const THEMES = {
   tea:   { forceDark: false, icon: 'leaf',  color: '#1F6B4A', tagline: 'Fresh from Kericho' },

@@ -83,7 +83,7 @@ export default function OrderDetail() {
           <div className="bg-card border border-gray-800 rounded-xl p-4 space-y-4">
             <div>
               <p className="text-xs text-gray-500 mb-1">From</p>
-              <p className="text-sm text-gray-200 font-medium">DMC Foods Kericho</p>
+              <p className="text-sm text-gray-200 font-medium">DMC Flavours Kericho</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 mb-1">To</p>

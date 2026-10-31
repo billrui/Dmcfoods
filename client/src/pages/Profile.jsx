@@ -128,7 +128,7 @@ export default function Profile() {
         </button>
       </div>
 
-      <p className="text-center text-xs text-gray-400 mt-16">© {new Date().getFullYear()} DMC Foods</p>
+      <p className="text-center text-xs text-gray-400 mt-16">© {new Date().getFullYear()} DMC Flavours</p>
 
       <ConfirmDialog
         open={confirmOpen}

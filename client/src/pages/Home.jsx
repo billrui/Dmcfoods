@@ -91,10 +91,10 @@ export default function Home() {
       )}
 
       <section className="max-w-6xl mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <h2 className="section-title">All foods</h2>
-          <div className="flex items-center gap-3">
-            <input type="text" placeholder="Search foods..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="bg-surface border border-surface-border rounded-full px-4 py-1.5 text-xs text-white outline-none focus:border-brand" />
+          <div className="flex items-center gap-3 min-w-0 flex-1 sm:flex-none justify-end">
+            <input type="text" placeholder="Search foods..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="min-w-0 w-full sm:w-56 bg-surface border border-surface-border rounded-full px-4 py-1.5 text-xs text-white outline-none focus:border-brand" />
             <button className="text-xs text-brand font-semibold flex items-center gap-1">Sort <ArrowRight className="w-3 h-3 rotate-90" /></button>
           </div>
         </div>

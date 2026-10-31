@@ -110,7 +110,7 @@ export default function BranchesAdmin() {
           <form onSubmit={handleSave} className="space-y-4">
             <div>
               <label className="text-xs text-gray-400 mb-1 block">Branch Name</label>
-              <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="e.g. DMC Foods Nairobi" className="w-full bg-sunken border border-gray-700 rounded-lg px-3 py-2 text-sm text-white outline-none" required />
+              <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="e.g. DMC Flavours Nairobi" className="w-full bg-sunken border border-gray-700 rounded-lg px-3 py-2 text-sm text-white outline-none" required />
             </div>
             <div>
               <label className="text-xs text-gray-400 mb-1 block">Address</label>

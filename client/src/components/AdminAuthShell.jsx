@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff, Loader2, Phone, ArrowLeft, ChefHat, BarChart3, Bike } from 'lucide-react';
 
-export const BRAND_NAME = 'DMC Foods';
+export const BRAND_NAME = 'DMC Flavours';
 
 export function AuthShell({ children, backHref = '/', backLabel = 'Back to store', onBack }) {
   return (

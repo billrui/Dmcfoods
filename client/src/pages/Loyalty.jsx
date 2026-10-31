@@ -36,7 +36,7 @@ export default function Loyalty() {
         <div className="relative">
           <div className="flex items-center gap-2 mb-3 opacity-90">
             <Award className="w-4 h-4" />
-            <span className="text-xs font-medium tracking-wider">DMC FOODS REWARDS</span>
+            <span className="text-xs font-medium tracking-wider">DMC FLAVOURS REWARDS</span>
           </div>
           <p className="text-5xl font-bold tabular-nums">{points.toLocaleString()}</p>
           <p className="text-sm opacity-90 mb-6">points{canRedeem && <> · worth <strong>{ksh(value)}</strong></>}</p>

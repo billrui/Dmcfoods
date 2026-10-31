@@ -4,10 +4,10 @@ export default function Terms() {
   return (
     <PolicyLayout title="Terms & Conditions" updated="October 2026">
       <p>
-        By using DMC Foods you agree to these terms. If you don't agree, please don't use the service.
+        By using DMC Flavours you agree to these terms. If you don't agree, please don't use the service.
       </p>
 
-      <h2 className="text-lg font-semibold dark:text-white pt-2">Using DMC Foods</h2>
+      <h2 className="text-lg font-semibold dark:text-white pt-2">Using DMC Flavours</h2>
       <ul className="list-disc pl-5 space-y-1">
         <li>You must be 18+ or have permission from a guardian.</li>
         <li>Provide accurate delivery details — we're not responsible for failed deliveries due to wrong addresses.</li>
@@ -48,7 +48,7 @@ export default function Terms() {
 
       <h2 className="text-lg font-semibold dark:text-white pt-2">Contact</h2>
       <p>
-        Questions? Email <a href="mailto:legal@dmcfoods.co.ke" className="text-brand hover:underline">legal@dmcfoods.co.ke</a>.
+        Questions? Email <a href="mailto:legal@dmcflavours.com" className="text-brand hover:underline">legal@dmcflavours.com</a>.
       </p>
     </PolicyLayout>
   );

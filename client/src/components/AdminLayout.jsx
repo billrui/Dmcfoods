@@ -39,7 +39,7 @@ export default function AdminLayout({ children, title }) {
           <span className="font-bold text-sm text-white">D</span>
         </div>
         <div>
-          <p className="text-sm font-bold text-white leading-none">DMC Foods</p>
+          <p className="text-sm font-bold text-white leading-none">DMC Flavours</p>
           <p className="text-[10px] text-gray-500 tracking-wider">ADMIN</p>
         </div>
       </div>

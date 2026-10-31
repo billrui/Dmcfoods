@@ -23,7 +23,7 @@ export default function BranchModal({ open, onClose }) {
         <div className="flex items-start justify-between mb-6">
           <div>
             <h2 className="text-2xl font-bold dark:text-white mb-1">Select branch</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Choose your nearest DMC Foods branch to continue ordering.</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Choose your nearest DMC Flavours branch to continue ordering.</p>
           </div>
           <button onClick={onClose} className="px-4 py-1.5 border border-gray-300 dark:border-gray-600 rounded-full text-sm font-medium dark:text-white hover:bg-gray-50 dark:hover:bg-raised">Close</button>
         </div>

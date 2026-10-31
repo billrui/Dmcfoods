@@ -34,7 +34,7 @@ export default function Wallet() {
         <div className="relative">
           <div className="flex items-center gap-2 mb-3 opacity-90">
             <WalletIcon className="w-4 h-4" />
-            <span className="text-xs font-medium tracking-wider">DMC FOODS WALLET</span>
+            <span className="text-xs font-medium tracking-wider">DMC FLAVOURS WALLET</span>
           </div>
           <p className="text-4xl font-bold mb-1">Ksh{balance / 100}</p>
           <p className="text-sm opacity-80 mb-6">Available balance</p>

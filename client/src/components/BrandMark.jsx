@@ -5,7 +5,7 @@ import { theme, BRAND_NAME } from '../theme';
 
 const ICONS = { leaf: Leaf, flame: Flame, moon: MoonStar };
 
-// Logo: uses /logo.png if you add one to client/public, otherwise an icon + "DMC Foods"
+// Logo: uses /logo.png if you add one to client/public, otherwise an icon + "DMC Flavours"
 export default function BrandMark({ withText = true, size = 'md' }) {
   const [errored, setErrored] = useState(false);
   const Icon = ICONS[theme.icon] || Leaf;
@@ -22,7 +22,7 @@ export default function BrandMark({ withText = true, size = 'md' }) {
       </div>
       {withText && (
         <span className="leading-none">
-          <span className="block font-display font-extrabold text-[17px] tracking-tight text-white">{BRAND_NAME}</span>
+          <span className="block font-display font-extrabold text-[15px] sm:text-[17px] tracking-tight whitespace-nowrap text-white">{BRAND_NAME}</span>
           <span className="hidden sm:block text-[10px] text-gray-400 mt-1">{theme.tagline}</span>
         </span>
       )}

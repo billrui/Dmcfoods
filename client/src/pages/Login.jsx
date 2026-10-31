@@ -66,8 +66,8 @@ export default function Login() {
         </h1>
         <p className="text-sm text-gray-400 mb-8 text-center max-w-xs">
           {isLogin 
-            ? 'Log in with your phone number to manage your DMC Foods orders.' 
-            : 'Register to start ordering from DMC Foods today.'}
+            ? 'Log in with your phone number to manage your DMC Flavours orders.' 
+            : 'Register to start ordering from DMC Flavours today.'}
         </p>
 
         <form onSubmit={submit} className="w-full max-w-md space-y-4">

@@ -1,4 +1,4 @@
-# DMC Foods on Render — setup & M-Pesa checklist
+# DMC Flavours on Render — setup & M-Pesa checklist
 
 ```
  Customer phone/browser

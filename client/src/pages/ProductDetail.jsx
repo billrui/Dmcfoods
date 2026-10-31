@@ -81,7 +81,7 @@ export default function ProductDetail() {
           </div>
 
           <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-            {item.description || `Freshly prepared ${item.name.toLowerCase()} at DMC Foods. Made to order with quality ingredients.`}
+            {item.description || `Freshly prepared ${item.name.toLowerCase()} at DMC Flavours. Made to order with quality ingredients.`}
           </p>
 
           {/* Quantity */}

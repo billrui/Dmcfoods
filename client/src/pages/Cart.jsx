@@ -62,7 +62,7 @@ export default function Cart() {
                     <MapPin className="w-5 h-5 text-brand" />
                   </div>
                   <div>
-                    <h2 className="font-semibold text-white">{branch?.name || 'DMC Foods'}</h2>
+                    <h2 className="font-semibold text-white">{branch?.name || 'DMC Flavours'}</h2>
                     <p className="text-sm text-gray-400 mt-1">{branch?.address || 'Location'}</p>
                   </div>
                 </div>
